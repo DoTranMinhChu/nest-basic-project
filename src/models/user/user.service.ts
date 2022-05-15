@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from 'src/product/entities/product.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -40,6 +39,15 @@ export class UserService {
     )
   }
 
+  async findUser(email: string): Promise<User | undefined> {
+    return await this.userRepository.findOne(
+      {
+        where: {
+          email: email
+        }
+      }
+    )
+  }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
