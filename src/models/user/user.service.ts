@@ -26,7 +26,7 @@ export class UserService {
     )
   }
 
-  async findOne(userID: number, productRelation: boolean = false): Promise<User> {
+  async findOne(userID: number, productRelation: boolean = false): Promise<User | undefined> {
     return await this.userRepository.findOne(
       {
         where: {

@@ -24,6 +24,7 @@ function getCookie(cname) {
 
 function login() {
 
+
     var username = $('#login-form #username').val();
     var password = $('#login-form #password').val()
     console.log(username + " __ " + password)
@@ -32,18 +33,19 @@ function login() {
         type: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-        dataType: 'json',
         data: {
-            "username": username,
-            "password": password
+            username: username,
+            password: password
         }
     }).then(data => {
+        console.log("------- Begin login---------")
         setCookie("Authorization", "Bearer " + data.token, 365)
         console.log(data)
         console.log("-- ", getCookie("Authorization"))
         getProfile();
 
     }).catch(err => {
+        console.log("errr login")
         console.log(err)
     })
 }
@@ -59,12 +61,13 @@ function getProfile() {
         dataType: 'json',
         processData: false,
         success: function (data) {
+            console.log("------- Begin getProfile---------")
             console.log('success');
             console.log(data);
 
             $("#profile").append(`<div>id : ${data.id}</div>`);
             $("#profile").append(`<div>email : ${data.email}</div>`);
-            $("#profile").append(`<div>password : ${data.password}</div>`);
+            $("#profile").append(`<div>name : ${data.name}</div>`);
 
         },
         error: function (err) {
@@ -77,7 +80,34 @@ function getProfile() {
 
 
 function logout() {
+    console.log("------- Begin Logout---------")
     setCookie("Authorization", null, 365)
     getProfile();
 
+}
+
+
+function register() {
+    var name = $('#register-form #name').val();
+    var email = $('#register-form #email').val();
+    var password = $('#register-form #password').val()
+    console.log(username + " __ " + password)
+    $.ajax({
+        url: 'auth/register',
+        type: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+        dataType: 'json',
+        data: {
+            "name": name,
+            "email": email,
+            "password": password
+        }
+    }).then(data => {
+        console.log("------- Begin register---------")
+        console.log(data)
+
+    }).catch(err => {
+        console.log(err)
+    })
 }

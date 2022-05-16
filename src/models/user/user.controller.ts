@@ -24,6 +24,7 @@ export class UserController {
 
   @Get(':id')
   findOne(@Param('id') id: string, @Query() query) {
+    console.log('Check  ')
     const productRelation = Boolean(query['products']);
     return this.userService.findOne(+id, productRelation)
 
